@@ -108,38 +108,39 @@ fun {Interpret Tokens}
     minus:Number.'-'
     multiply:Number.'*'
     divide:Float.'/'
-    )
-    fun {Iterate Stack Tokens}
-      % If there are no more elements in Tokens we are finished, and returns the Stack
-      case Tokens of nil then
-        Stack
+  )
+  fun {Iterate Stack Tokens}
+    % If there are no more elements in Tokens we are finished, and returns the Stack
+    case Tokens of nil then
+      Stack
 
-      % If the first element is a number, remove it from Tokens and add it to the Stack
-      [] number(Number)|Tail then
-        {Iterate Number|Stack Tail}
+    % If the first element is a number, remove it from Tokens and add it to the Stack
+    [] number(Number)|Tail then
+      {Iterate Number|Stack Tail}
 
-      % If the first element is a type of Operation, get the first first two elements of the Stack
-      % perform the operation on the first two elements using the record Operation, and add it to the Stack
-      [] operator(type:Operation)|Tail then
-        Number1 | Number2 | Rest = Stack in
-          {Iterate {Operations.Operation Number1 Number2}|Rest Tail}
+    % If the first element is a type of Operation, get the first first two elements of the Stack
+    % perform the operation on the first two elements using the record Operation, and add it to the Stack
+    [] operator(type:Operation)|Tail then
+      Number1 | Number2 | Rest = Stack in
+        {Iterate {Operations.Operation Number1 Number2}|Rest Tail}
 
-      % If the first element is a type of Command, check if it is a print command, then execute it through the
-      % Commands record, then Iterate on the rest of the Stack. Else just execute the Command, this is due
-      % to PrintStack is a procedure and not a function
-      [] command(Command)|Tail then
-        if Command == print then
-          {Commands.Command Stack}
-          {Iterate Stack Tail}
-        else
-          {Iterate {Commands.Command Stack} Tail}
-        end
-
-      % If nothing matches, Tokens contain an illegal token and then raise an exception
+    % If the first element is a type of Command, check if it is a print command, then execute it through the
+    % Commands record, then Iterate on the rest of the Stack. Else just execute the Command, this is due
+    % to PrintStack is a procedure and not a function
+    [] command(Command)|Tail then
+      if Command == print then
+        {Commands.Command Stack}
+        {Iterate Stack Tail}
       else
-        raise "Unvalid expression" end
+        {Iterate {Commands.Command Stack} Tail}
       end
+
+    % If nothing matches, Tokens contain an illegal token and then raise an exception
+    else
+      raise "Unvalid expression" end
     end
+  end
 in
-  {Iterate nil Tokens}
+  % To return the calculation in the proper format it needs to be tokenized, then reversed
+  {List.reverse {Tokenize {Iterate nil Tokens}}}
 end
