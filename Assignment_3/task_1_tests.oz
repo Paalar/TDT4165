@@ -19,19 +19,26 @@ define
     {QuadraticEquation 2.0 1.0 ~1.0 RealSol X1 X2}
 
     {PrintQuadraticEquation RealSol X1 X2}
-  end
+  end % 1a
 
   local RealSol X1 X2 in % Has one solution
     {QuadraticEquation 1.0 2.0 1.0 RealSol X1 X2}
 
     {PrintQuadraticEquation RealSol X1 X2}
-  end
+  end % 1a
 
   local RealSol X1 X2 in % Has zero solutions
     {QuadraticEquation 1.0 2.0 2.0 RealSol X1 X2}
 
     {PrintQuadraticEquation RealSol X1 X2}
-  end
+  end % 1a
+
+  % 1b
+  % Procedural absraction is the ability to convert any statement to a procedure
+  % It allows for delaying an execution of a statement
+  % It is a principle tool for building abstractions
+
+  % 1c A function returns a value created inside the function, while a procedure executes statements
 
   {Exit 0}
 end
