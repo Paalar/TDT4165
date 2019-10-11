@@ -6,14 +6,13 @@ fun {GenerateOdd S E}
       nil
     end
   else
-    if E >= S+1 then
-      S|{GenerateOdd S+1 E}
+    if E > S then
+      {GenerateOdd S+1 E}
     else
       nil
     end
-  end
+  end 
 end
-
 
 fun {Product S}
   case S of Head|Tail then
