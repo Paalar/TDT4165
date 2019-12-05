@@ -1,0 +1,6 @@
+payment(0, []).
+payment(Sum, [Head | Tail]) :-
+    coin(AmountOfCoinsNeeded, ValueOfCoin, AmountOfCoinsAvailable) = Head,
+    AmountOfCoinsNeeded in 0..AmountOfCoinsAvailable,
+    Sum #= (ValueOfCoin * AmountOfCoinsNeeded) + TailSum,
+    payment( TailSum, Tail ).
